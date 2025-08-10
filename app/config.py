@@ -1,15 +1,14 @@
-from openai import AsyncOpenAI
-from openai import OpenAI
+import os
 from dotenv import load_dotenv
+from openai import OpenAI, AsyncOpenAI
 
 load_dotenv()
 
-OPENAI_API_KEY = "sk-proj-..."
-
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
-    raise RuntimeError("Missing OPENAI_API_KEY in environment variables!")
+    raise RuntimeError(
+        "Missing OPENAI_API_KEY. Set it in your environment or .env file."
+    )
 
-# Single client instance
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 async_openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
-

@@ -1,7 +1,6 @@
 import re
 
 
-# Chunking Logic
 def chunk_text(text, max_tokens=800):
     sections = re.split(r'(\n#+\s|\n[A-Z][A-Za-z\s]+:)', text)
     chunks = []
@@ -18,6 +17,5 @@ def chunk_text(text, max_tokens=800):
 
     if current_chunk:
         chunks.append(" ".join(current_chunk))
-
 
     return chunks
