@@ -19,7 +19,7 @@ AIDocParser is an AI-powered backend system for document ingestion, summarizatio
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Deep00009999/AIDocumentParser.git
+git clone this repo url
 cd AIDocParser
 
 # 2. Create and activate virtual environment
