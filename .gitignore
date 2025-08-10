@@ -17,22 +17,3 @@ venv/
 # Build
 dist/
 build/
-# OS / IDE
-.DS_Store
-.idea/
-.vscode/
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-.venv/
-venv/
-.env
-.env.*
-
-# Build
-dist/
-build/
