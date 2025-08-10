@@ -15,6 +15,9 @@ import app.document_chunk as doc_chunk_model
 from app.chunk import chunk_text
 from app.async_llm import summarize_entire_document, answer_question_async
 
+import tiktoken
+ENC = tiktoken.get_encoding("cl100k_base")
+MAX_CTX_TOKENS = 12000
 router = APIRouter()
 store = EmbeddingStore()
 
@@ -79,6 +82,7 @@ async def upload_doc(file: UploadFile = File(...), replace: bool = False, db: Se
         raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 
     text = extract_pdf_text(contents)
+    ensure_token_limit(text)
     summary = await summarize_entire_document(text)
 
     existing_doc = db.query(doc_model.Document).filter_by(filename=filename).first()
@@ -109,7 +113,7 @@ def get_document_context_from_db(db: Session, filename: str) -> str:
     return doc.summary or doc.content or "" if doc else ""
 
 
-def build_faiss_index_from_db(filename: str, db: Session, store: EmbeddingStore) -> bool:
+def build_faiss_index_from_db(filename: str, db: Session, store: EmbeddingStore, chunk) -> bool:
     doc = db.query(doc_model.Document).filter(doc_model.Document.filename == filename).first()
     if not doc:
         return False
@@ -156,3 +160,8 @@ async def ask_question_route(
         "question": question,
         "answer": answer
     }
+
+
+def ensure_token_limit(text: str):
+    if len(ENC.encode(text)) > MAX_CTX_TOKENS:
+        raise HTTPException(status_code=413, detail="Document too large to process")
