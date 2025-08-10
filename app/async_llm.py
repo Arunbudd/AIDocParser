@@ -20,7 +20,6 @@ async def retry_async(func, retries=3, delay=5):
     raise Exception(f"[FAILURE] Failed after {retries} retries.")
 
 
-# Chunking Logic
 def chunk_text(text, max_tokens=1200):
     sections = re.split(r'(\n#+\s|\n[A-Z][A-Za-z\s]+:)', text)
     chunks, current_chunk = [], []
@@ -68,7 +67,6 @@ async def summarize_chunk_async(chunk: str) -> str:
             return f"[ERROR] {str(e)}"
 
 
-# Summarize Entire Document
 async def summarize_entire_document(document: str) -> str:
     # Truncate document if too long
     input_text = document[:12000]  # adjust as needed to stay within OpenAI token limits
