@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.orm import relationship
 from app.models_base import Base  # shared Base
 
+
 class Document(Base):
     __tablename__ = "documents"
 
